@@ -1,17 +1,34 @@
+    var topics = ["Monkey", "Horse", "Dog"];
+    
+    $(document).ready(function() {
+        console.log("here");
+        buildButtonsFromArrayOfTopics();
+    });
+
     $("#add-animal").on("click", function() {
-       //build the new button
-        var newAnimalBtn = $("<button>");
-        newAnimalBtn.attr("class", "btn btn-primary")
-        var newAnimalName = $("#new-animal-txt").val().trim();
-        newAnimalBtn.attr("value", newAnimalName);
-        newAnimalBtn.text($("#new-animal-txt").val().trim());
+        topics.push($("#new-animal-txt").val().trim());
+        console.log("new value=" + $("#new-animal-txt").val().trim());
+        buildButtonsFromArrayOfTopics();
+    });
+
+    function buildButtonsFromArrayOfTopics() {
+        console.log("enter buildButtonsFromArrayOfTopics");
+        $(".buttons-sec").empty();
+        for (var i=0;i<topics.length;i++) {
+            var newAnimalBtn = $("<button>");
+            newAnimalBtn.attr("class", "btn btn-primary")
+            // ..var newAnimalName = topics[i];
+            console.log("topics[i]=" + topics[i]);
+            newAnimalBtn.attr("value", topics[i]);
+            newAnimalBtn.text(topics[i]);
             //hang onClick onto the newly created button
             newAnimalBtn.on("click", function() {
                 callGiffyAPI((this.value));
             }),
-
-        $(".buttons-sec").append(newAnimalBtn);
-    });
+            
+            $(".buttons-sec").append(newAnimalBtn);
+        }
+    }
 
     function callGiffyAPI(animal) {
         console.log("animal=" + animal);
@@ -46,7 +63,7 @@
                 animalImage.attr("data-state", "still");
 
                 animalImage.on("click", function() {
-                    var state = $(this).attr("data-state");
+                var state = $(this).attr("data-state");
 
                     if (state === "still") {
                         $(this).attr("src", $(this).attr("data-animate"));
@@ -65,11 +82,4 @@
         })
     };
 
-    // $(".gif").on("click", function() {
-    //     // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
-        
-    //     // If the clicked image's state is still, update its src attribute to what its data-animate value is.
-    //     // Then, set the image's data-state to animate
-    //     // Else set src to the data-still value
-       
-    //   });
+  
